@@ -1,0 +1,41 @@
+#include <dos.h>
+#include <stdio.h>
+#include <conio.h>
+
+void clrscr(){
+	union REGS inregs, outregs;
+
+	inregs.h.ah = 0x06;
+	inregs.h.al = 0x00;
+	inregs.h.bh = 0x07;
+
+	inregs.h.ch = 0;
+	inregs.h.cl = 0;
+	inregs.h.dh = 24;
+	inregs.h.dl = 79;
+	int86(0x10, &inregs, &outregs);
+
+	inregs.h.ah = 0x02;
+	inregs.h.bh = 0x00;
+	inregs.h.dh = 0;
+	inregs.h.dl = 0;
+
+
+	int86(0x10, &inregs, &outregs);
+
+}
+
+int main (){
+	printf("Veras como todo este texto se borrar  \n Pulsa cualquier tecla para borrar la pantalla");
+	getch();
+
+	clrscr();
+
+	cprintf("Pantalla borrada!");
+
+	getch();
+
+	return 0;
+
+
+}
