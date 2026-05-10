@@ -1,0 +1,147 @@
+﻿// =========================================================
+// PROYECTO: BARRA SENSORA IR + WIIMOTE (UGR)
+// Autor: Estudiante Ingeniería Informática
+// =========================================================
+
+// --- INICIALIZACIÓN DE VARIABLES ---
+if starting then
+    var.modo = 1
+    var.sensibilidad = 0.6 // Ajustable para el modo FPS
+    var.inicializado = true
+    Wiimote.Leds = 1
+    Say("Sistema iniciado. Modo escritorio.")
+end if
+
+// --- MONITORIZACIÓN DE ESTADO CORREGIDA ---
+var.displayBat = 0
+if Wiimote.Battery > 2 then
+    var.displayBat = round(Wiimote.Battery / 2)
+else
+    var.displayBat = round(Wiimote.Battery * 100)
+end if
+if var.displayBat > 100 then var.displayBat = 100
+
+debug = "Modo: " + var.modo + " | Batería: " + var.displayBat + "% | IR: " + Wiimote.PointerVisible
+// --- SELECTOR DE MODOS (Botón Home) ---
+if pressed(Wiimote.Home) then
+    var.modo = var.modo + 1
+    if var.modo > 3 then var.modo = 1
+    Wiimote.Leds = var.modo // El número de luces indica el modo
+    
+    if var.modo == 1 then Say("Modo escritorio")
+    if var.modo == 2 then Say("Modo F P S")
+    if var.modo == 3 then Say("Modo multimedia")
+end if
+
+// --- INFORME DE BATERÍA (Botón Minus) ---
+if pressed(Wiimote.Minus) then
+    // Detectamos si el valor es crudo (0-200) o normalizado (0-1)
+    if Wiimote.Battery > 2 then
+        var.porcentaje = round(Wiimote.Battery / 2)
+    else
+        var.porcentaje = round(Wiimote.Battery * 100)
+    end if
+
+    // Limitamos el máximo a 100 por si el driver da valores extraños
+    if var.porcentaje > 100 then var.porcentaje = 100
+
+    Say("Carga de la bateria al " + var.porcentaje + " por ciento")
+end if
+
+// =========================================================
+// MODO 1: RATÓN DE ESCRITORIO (WINDOWS)
+// =========================================================
+if var.modo == 1 then
+    // Movimiento IR suavizado
+    if Wiimote.PointerVisible then
+        Mouse.x = Smooth(Wiimote.PointerX, 12)
+        Mouse.y = Smooth(Wiimote.PointerY, 12)
+    end if
+    
+    // Botones principales
+    Mouse.LeftButton = Wiimote.A
+    Mouse.RightButton = Wiimote.B
+    
+    // Scroll con Joystick (Nunchuk)
+    if Wiimote.Nunchuk.JoyY < -0.5 then
+        Mouse.WheelUp = true
+        wait 60ms
+        Mouse.WheelUp = false
+    end if
+    if Wiimote.Nunchuk.JoyY > 0.5 then
+        Mouse.WheelDown = true
+        wait 60ms
+        Mouse.WheelDown = false
+    end if
+
+    // Teclado Virtual (Combinación Win+Ctrl+O para Teclado en pantalla)
+    if pressed(Wiimote.Nunchuk.ZButton) then
+        Press(Key.Windows)
+        Press(Key.LeftCtrl)
+        Press(Key.O)
+        wait 50ms
+        Release(Key.O)
+        Release(Key.LeftCtrl)
+        Release(Key.Windows)
+    end if
+    
+    Key.Enter = Wiimote.Nunchuk.CButton
+end if
+
+// =========================================================
+// MODO 2: FPS (ASSUALTCUBE / WOLFENSTEIN / COD)
+// =========================================================
+if var.modo == 2 then
+    // Lógica de cámara (Movimiento Relativo/DirectInput)
+    if Wiimote.PointerVisible then
+        var.diffX = (Wiimote.PointerX - 0.5) * 80
+        var.diffY = (Wiimote.PointerY - 0.5) * 80
+        Mouse.DirectInputX = Mouse.DirectInputX + (Smooth(var.diffX, 8) * var.sensibilidad)
+        Mouse.DirectInputY = Mouse.DirectInputY + (Smooth(var.diffY, 8) * var.sensibilidad)
+    end if
+
+    // Combate y Acciones
+    Mouse.LeftButton = Wiimote.B  // Disparar (Gatillo)
+    Key.R = Wiimote.A            // Recargar
+    Key.Q = Wiimote.Two          // Cambio rápido de arma
+
+    // Selector de Armas (1-5)
+    Key.One = Wiimote.Up
+    Key.Two = Wiimote.Right
+    Key.Three = Wiimote.Down
+    Key.Four = Wiimote.Left
+    Key.Five = Wiimote.One
+
+    // Movimiento (Nunchuk)
+    Key.W = Wiimote.Nunchuk.JoyY < -0.3
+    Key.S = Wiimote.Nunchuk.JoyY > 0.3
+    Key.A = Wiimote.Nunchuk.JoyX < -0.3
+    Key.D = Wiimote.Nunchuk.JoyX > 0.3
+    
+    Key.Space = Wiimote.Nunchuk.CButton       // Saltar
+    Key.LeftControl = Wiimote.Nunchuk.ZButton // Agacharse
+end if
+
+// ==========================================
+// MODO 3: EMULACIÓN Y GAMING 2D
+// ==========================================
+if var.modo == 3 then
+    // Movimiento (Digital + Analógico)
+    Key.Up = Wiimote.Up or (Wiimote.Nunchuk.JoyY < -0.4)
+    Key.Down = Wiimote.Down or (Wiimote.Nunchuk.JoyY > 0.4)
+    Key.Left = Wiimote.Left or (Wiimote.Nunchuk.JoyX < -0.4)
+    Key.Right = Wiimote.Right or (Wiimote.Nunchuk.JoyX > 0.4)
+
+    // Botones de Acción
+    Key.X = Wiimote.Two       // Botón 2 -> Acción A (Salto)
+    Key.Z = Wiimote.One       // Botón 1 -> Acción B (Ataque)
+    
+    // Gestión de Menús y Sistema
+    Key.Enter = Wiimote.A     // Botón A -> Start
+    Key.Space = Wiimote.B     // Botón B -> Select
+    Key.Escape = Wiimote.Plus // Botón Plus -> Menú Principal / Salir
+
+    // Botones Auxiliares (Nunchuk)
+    Key.S = Wiimote.Nunchuk.CButton // Botón C -> L (Hombro izquierdo)
+    Key.D = Wiimote.Nunchuk.ZButton // Botón Z -> R (Hombro derecho)
+end if
