@@ -1,0 +1,45 @@
+%!
+% Dibujo del corazon
+newpath
+1 0 0 setrgbcolor       % Color rojo puro
+
+% Punta inferior del corazon
+150 200 moveto          % Colocamos el lapiz en el eje X central, muy abajo
+
+% Parte izquierda
+% Puntos de control en (50, 300) y (50, 450) para inflar la curva a la izquierda
+% Punto final en la hendidura superior central (150, 400)
+50 300  50 450  150 400 curveto  % 
+
+% Parte derecha
+% Salimos de (150, 400). Puntos de control en (250, 450) y (250, 300) para inflar a la derecha
+% Punto final volviendo a la punta inferior exacta (150, 200)
+250 450  250 300  150 200 curveto % 
+
+fill                    % Rellenamos el trazado con el rojo actual
+
+
+% Texto Poesia
+% Linea 1: Gris claro, fuente normal
+/Helvetica findfont 14 scalefont setfont
+0.7 setgray
+300 330 moveto
+(No alto daquele cume) show
+
+% Linea 2: Gris medio, misma fuente
+0.5 setgray
+300 310 moveto
+(Plantei uma Roseira) show 
+
+% Linea 3: Gris muy oscuro, negrita
+/Helvetica-Bold findfont 14 scalefont setfont
+0.2 setgray
+300 290 moveto
+(O vento no cume bate) show
+
+% Linea 4: Negro puro, negrita
+0 setgray
+300 270 moveto
+(A rosa no cume cheira.) show 
+
+showpage

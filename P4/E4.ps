@@ -1,0 +1,75 @@
+%!
+<< /PageSize [842 595] >> setpagedevice     % Cambia la pagina a formato horizontal
+
+% Circulos cocentricos
+% Centro de la pagina: X=421, Y=297
+
+% Circulo 1 (El mas grande - Azul)
+newpath
+421 297 150 0 360 arc
+0.2 0.4 0.8 setrgbcolor fill
+
+% Circulo 2 (Rojo)
+newpath
+421 297 120 0 360 arc
+1 0 0 setrgbcolor fill
+
+% Circulo 3 (Verde claro)
+newpath
+421 297 90 0 360 arc
+0.4 0.9 0.4 setrgbcolor fill
+
+% Circulo 4 (Morado/Lila)
+newpath
+421 297 65 0 360 arc
+0.8 0.5 0.9 setrgbcolor fill
+
+% Circulo 5 (Amarillo)
+newpath
+421 297 45 0 360 arc
+1 1 0 setrgbcolor fill
+
+
+% La carita del medio
+% Borde blanco exterior del cuadrado
+newpath
+391 267 moveto
+60 0 rlineto
+0 60 rlineto
+-60 0 rlineto
+closepath
+1 setgray fill      % Blanco
+
+% Fondo gris interior de la cara
+newpath
+396 272 moveto
+50 0 rlineto
+0 50 rlineto
+-50 0 rlineto
+closepath
+0.7 setgray fill    % Gris medio
+
+% --- Ojos ---
+0 setgray           % Cambiamos el color a negro para los detalles de la cara
+
+% Ojo Izquierdo
+newpath
+405 305 moveto
+6 0 rlineto 0 6 rlineto -6 0 rlineto closepath
+fill
+
+% Ojo Derecho
+newpath
+431 305 moveto
+6 0 rlineto 0 6 rlineto -6 0 rlineto closepath
+fill
+
+% Boca (Usando curvas curveto para hacer la sonrisa)
+newpath
+2 setlinewidth      % Grosor de la linea de la boca
+405 285 moveto      % Comisura izquierda
+% Tiramos hacia abajo con los puntos para hacer la curva de la sonrisa
+410 270  432 270  437 285 curveto 
+stroke
+
+showpage

@@ -1,0 +1,71 @@
+%!
+% Arbol 1 - Tronco
+newpath
+0.5 0.25 0 setrgbcolor  % El color del tronco
+100 100 moveto          % punto de partida
+30 0 rlineto            % la largura que tendrá
+0 150 rlineto           % la altura que tendrá
+-30 0 rlineto           % la posición que inicia
+closepath               % Cerramos el rectangulo
+fill                    % Rellenamos de marron
+
+% Arbol 1 - Copa
+0.1 0.7 0.2 setrgbcolor %Cambiamos el color al verde para la copa 
+
+%Hacemos el primer circulo de la copa o el circulo principal
+newpath
+115 280 60 0 360 arc
+fill
+
+% Circulo de la copa por la izquierda
+newpath
+80 250 50 0 360 arc
+fill
+
+% Circulo de la copa por la derecha
+newpath
+150 240 45 0 360 arc
+fill
+
+
+% Arbol 2 - Tronco
+newpath
+0.5 0.25 0 setrgbcolor
+250 100 moveto
+20 0 rlineto
+0 80 rlineto
+-20 0 rlineto
+closepath
+fill
+
+% Arbol 2 - Copa
+0.1 0.7 0.2 setrgbcolor 
+
+newpath
+260 190 40 0 360 arc
+fill
+
+newpath
+235 170 30 0 360 arc
+fill
+
+newpath
+285 160 30 0 360 arc
+fill
+
+
+%circulo del medio
+
+% Borde
+newpath
+0.5 0.25 0 setrgbcolor
+190 110 15 0 360 arc
+fill
+
+% Interior
+newpath
+0.4 0.9 0.4 setrgbcolor
+190 110 10 0 360 arc
+fill
+
+showpage

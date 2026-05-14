@@ -1,0 +1,70 @@
+%!
+
+% Contorno de la tarjeta de visita
+newpath
+100 400 moveto          % Esquina inferior izquierda de la tarjeta
+400 0 rlineto           % Ancho
+0 250 rlineto           % Alto
+-400 0 rlineto          % Ancho hacia la izquierda
+closepath
+0.98 setgray fill       % Relleno con un gris bastante claro
+
+% Dibujo el borde de la tarjeta para que se vea bien
+newpath
+100 400 moveto  %squina inferior izquierda de la tarjeta
+400 0 rlineto   %ancho
+0 250 rlineto   %Alto
+-400 0 rlineto  %Ancho hacia la izquierda
+closepath
+0 setgray       %Relleno
+1 setlinewidth  %Pongo el grosor de la linea en uno
+stroke
+
+
+% Circulito gris del logo
+newpath
+180 525 50 0 360 arc    % Centro x=180, y=525, radio=50
+0.8 setgray fill        % Relleno de gris claro
+
+% Borde oscuro para el circulo
+newpath
+180 525 50 0 360 arc    %centro x=180, y=525, radio = 50
+0.3 setgray             %relleno de gris oscuro
+3 setlinewidth          %Pongo el grosor de la linea a 3
+stroke
+
+% Nombre
+/Helvetica-Bold findfont 16 scalefont setfont   %Fuente y escala
+0 setgray                                       %negro
+240 550 moveto                                  %posicion donde empezaremos a escribir
+(Carlos Alberto Rodriguez Ferreira) show        %El "print"
+
+% Primera linea del cargo
+/Helvetica findfont 11 scalefont setfont
+0.5 setgray                                             %gris
+250 530 moveto
+(Administrador de Sistemas Informaticos en Red) show    %primer cargo
+
+% Segunda linea del cargo
+250 515 moveto                                          %"salto de linea"
+(e Ingeniero Informatico) show                          %Segundo cargo
+
+% Datos de contacto
+/Helvetica findfont 10 scalefont setfont
+0.6 setgray             
+
+250 485 moveto
+(C. Periodista Daniel Saucedo Aranda, s/n) show
+
+250 470 moveto
+(Despacho 653) show
+
+250 455 moveto
+(18014 Granada) show
+
+250 435 moveto
+(Tel: 958 242 802 / 622 529 679) show
+
+250 420 moveto
+(crodfer@correo.ugr.es) show
+showpage                
